@@ -2,6 +2,8 @@ package it.polito.tdp.rubrica.model;
 
 import java.util.*;
 
+import rubricaDB.VoceDAO;
+
 /**
  * Insieme di tutte le voci della rubrica ed i metodi per gestire tale insieme
  * 
@@ -14,7 +16,7 @@ public class RubricaModel {
 	private List<Voce> rubrica;
 
 	public RubricaModel() {
-		rubrica = new ArrayList<Voce>();
+	//	rubrica = new ArrayList<Voce>();
 	}
 
 	/**
@@ -30,12 +32,18 @@ public class RubricaModel {
 
 	public boolean addVoce(Voce v) {
 
-		if (rubrica.contains(v)) {
+	/*	if (rubrica.contains(v)) {
 			return false;
 		} else {
 			rubrica.add(v);
 			return true;
-		}
+		}*/
+		
+		VoceDAO dao = new VoceDAO();
+		if(dao.findVoceByNome(v.getNome()) != null)
+			return false;
+		
+		return dao.addVoce(v);
 	}
 
 	/**
@@ -51,12 +59,19 @@ public class RubricaModel {
 
 	public Voce findVoceByNome(String nome) {
 
-		for (Voce v : rubrica) {
+	/*	for (Voce v : rubrica) {
 			if (v.getNome().equals(nome)) {
 				return v;
 			}
 		}
-		return null;
+		return null;*/
+		
+		VoceDAO dao = new VoceDAO();
+		
+		Voce v = dao.findVoceByNome(nome);
+		
+		return v;
+		
 	}
 	
 	public static void main(String [] args){
